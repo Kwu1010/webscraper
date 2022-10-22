@@ -7,6 +7,11 @@ Description: Webscraper module for Twitter URLs.
 import tweepy
 
 """
+Global variables (used as static)
+"""
+bearer_token = ""
+
+"""
 Login to tweepy using a Twitter bearer token.
 
 @param bearer_token is the user's bearer token
@@ -50,7 +55,6 @@ Return the text of a tweet given a url.
 @return the text contained in the tweet
 """
 def return_text(url):
-    bearer_token = "AAAAAAAAAAAAAAAAAAAAAPazZAEAAAAAqXtIWwkQ8%2BcWJVVa%2Fxe9El5X9YY%3DSViGWl8k0QIdhclQx4I5phPSyHz606eTkaBcLNlUCfpPzIsk5K"
     client = login(bearer_token)
     tweet_id = validate_link(url)
     tweet = open_tweet_link(client, tweet_id)
@@ -60,7 +64,6 @@ def return_text(url):
 Main function. Takes a bearer token and url to extract text from a tweet.
 """
 def main():
-    bearer_token = "AAAAAAAAAAAAAAAAAAAAAPazZAEAAAAAqXtIWwkQ8%2BcWJVVa%2Fxe9El5X9YY%3DSViGWl8k0QIdhclQx4I5phPSyHz606eTkaBcLNlUCfpPzIsk5K"
     url = "https://twitter.com/DefenceHQ/status/1578978756932571136"
     client = login(bearer_token)
     tweet_id = validate_link(url)
