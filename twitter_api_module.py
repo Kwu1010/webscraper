@@ -52,9 +52,11 @@ def open_tweet_link(client, tweet_id):
 Return the text of a tweet given a url.
 
 @param url is the url of the tweet
-@return the text contained in the tweet
+@return the text contained in the tweet, or empty string if bearer token is empty
 """
 def return_text(url):
+    if bearer_token == "":
+        return ""
     client = login(bearer_token)
     tweet_id = validate_link(url)
     tweet = open_tweet_link(client, tweet_id)
@@ -62,8 +64,11 @@ def return_text(url):
 
 """
 Main function. Takes a bearer token and url to extract text from a tweet.
+Exit if bearer token is empty.
 """
 def main():
+    if bearer_token == "":
+        exit(1)
     url = "https://twitter.com/DefenceHQ/status/1578978756932571136"
     client = login(bearer_token)
     tweet_id = validate_link(url)
