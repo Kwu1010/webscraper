@@ -5,14 +5,16 @@ Description: Webscraper module for Twitter URLs.
 """
 
 import tweepy
+from dotenv import dotenv_values
 
 """
-Twitter Bearer Token
+Twitter Bearer Token From .env File
 
 To generate a key:
 https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens
 """
-bearer_token = ""
+file = dotenv_values(".env")
+bearer_token = file["BEARER_TOKEN"]
 
 """
 Login to tweepy using a Twitter bearer token.
@@ -74,7 +76,7 @@ Exit if bearer token is empty.
 def main():
     if bearer_token == "":
         exit(1)
-    url = "https://twitter.com/DefenceHQ/status/1578978756932571136"
+    url = "https://twitter.com/NetflixAnime/status/1573896580507344896"
     client = login(bearer_token)
     tweet_id = validate_link(url)
     if tweet_id == -1:
