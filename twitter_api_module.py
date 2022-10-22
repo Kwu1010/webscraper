@@ -33,6 +33,8 @@ def validate_link(url):
     url_split = url.split('/')
     if (len(url_split) == 6 and (url_split[-4] == "twitter.com" and url_split[-2] == "status")):
         tweet_id = url_split[-1]
+        tweet_id = tweet_id.split('?')   # remove excess characters after tweet ID
+        tweet_id = tweet_id[0]
         return tweet_id
     else:
         return -1
