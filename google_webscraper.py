@@ -135,7 +135,7 @@ def search_wiki(search_terms, parse_search):
         filter_search(search_terms, website_elements)
 
 """
-Main function. Takes a bearer token and url to extract text from a tweet.
+Main function.
 """
 def main():
     search_terms, website, parse_search = specify_search_parameters()
