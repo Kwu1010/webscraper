@@ -22,7 +22,7 @@ Check if the specified website is valid.
 @return a valid website
 """
 def verify_website(website):
-    while(((website.lower() in wiki) == False) and (website.lower() in google) == False):
+    while (website.lower() not in wiki) and (website.lower() not in google):
         print("Invalid website.")
         website = input("Search in [ Google | Wikipedia ]: ")
     return website
@@ -35,20 +35,20 @@ Check if search terms are valid.
 @return valid search terms
 """
 def verify_search_terms(website, search_terms):
-    if(website in google):
-        while(search_terms.isspace()):
+    if website in google:
+        while search_terms.isspace():
             print("Invalid search. Search is empty.")
             search_terms = input("Enter search term: ")
         return search_terms
-    elif(website in wiki):
-        while (search_terms.isspace() or (len(search_terms.split(' ')) != 1)):
+    elif website in wiki:
+        while search_terms.isspace():
             print("Invalid search. Search is empty or contains spaces.")
             search_terms = input("Enter search term: ")
-        search_terms = search_terms.replace(' ', '')
+        search_terms = search_terms.replace(' ', '_')
         return search_terms
 
 """
-Query user for search terms and search website.
+Query user for search terms and website.
 
 @return search terms and the website to search in
 """
@@ -59,13 +59,16 @@ def specify_search_parameters():
     search_terms = input("Enter search term: ")
     search_terms = verify_search_terms(website, search_terms)
 
-    parse_search = -1
-    while(parse_search == -1):
+    # Ask if user wants to filter their search, then take in search terms or leave parse_search empty
+    parse_search = " "
+    while parse_search.lower() != "y" and parse_search.lower() != "n":
         parse_search = input("Filter search for sentence with keywords [ Y | N ]: ")
-        if(parse_search.lower() == "y"):
-            parse_search = 1
-        elif(parse_search.lower() == 'n'):
-            parse_search = 0
+    if parse_search.lower() == "y":
+        parse_search = " "
+        while parse_search.isspace():
+            parse_search = input("Enter search terms: ")
+    elif parse_search.lower() == "n":
+        parse_search = " "
     return search_terms, website, parse_search
 
 """
@@ -74,8 +77,8 @@ Filter the search to sentences which contain the search terms and print them out
 @param search_terms are the terms to search for
 @param website_elements is the website data
 """
-def filter_search(search_terms, website_elements):
-    term_list = search_terms.split(' ')
+def filter_search(parse_search, website_elements):
+    term_list = parse_search.split(' ')
     for data in website_elements.find_all("p"):
         contains_term = False
         text = data.get_text()
@@ -107,14 +110,14 @@ def search_google(search_terms, parse_search):
     for url in search(search_terms, tld="co.in", num=10, stop=10, pause=2):
         print(url)
         tweet_id = is_tweet(url)
-        if(tweet_id == -1):
+        if tweet_id == -1:
             html = requests.get(url)
             website_elements = BeautifulSoup(html.content, 'html.parser')
-            if(parse_search == 0):
+            if parse_search.isspace():
                 for data in website_elements.find_all("p"):
                     print(data.get_text())
             else:
-                filter_search(search_terms, website_elements)
+                filter_search(parse_search, website_elements)
         else:
             print(twitter_api_module.return_text(url))
 
@@ -128,7 +131,7 @@ def search_wiki(search_terms, parse_search):
     url = "https://en.wikipedia.org/wiki/" + search_terms
     html = requests.get(url)
     website_elements = BeautifulSoup(html.content, 'html.parser')
-    if (parse_search == 0):
+    if parse_search.isspace():
         for data in website_elements.find_all("p"):
             print(data.get_text())
     else:
@@ -139,11 +142,9 @@ Main function.
 """
 def main():
     search_terms, website, parse_search = specify_search_parameters()
-    if(website in google):
-        pass
+    if website in google:
         search_google(search_terms, parse_search)
-    elif(website in wiki):
-        pass
+    elif website in wiki:
         search_wiki(search_terms, parse_search)
 
 """
