@@ -7,7 +7,10 @@ Description: Webscraper module for Twitter URLs.
 import tweepy
 
 """
-Global variables (used as static)
+Twitter Bearer Token
+
+To generate a key:
+https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens
 """
 bearer_token = ""
 
