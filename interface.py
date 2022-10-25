@@ -5,6 +5,7 @@ Description: GUI for taking user input for the webscraper.
 """
 
 import tkinter as tk
+import turtle as tt
 from turtle import RawTurtle as rt
 
 """
@@ -42,10 +43,12 @@ Create the Turtle canvas for a background.
 @param height is the height of the canvas
 @return the canvas
 """
-def build_canvas(root, width, height):
+def build_canvas(root, width, height, color):
     canvas = tk.Canvas(root, width=width, height=height)
+    tt_screen = tt.TurtleScreen(canvas)
+    tt_screen.bgcolor(color)
     canvas.pack()
-    return canvas
+    return tt_screen
 
 """
 Initialize Turtle.
@@ -93,16 +96,15 @@ Draw the background for the GUI.
 
 @param canvas is the canvas to draw the background on
 """
-def draw_background(canvas):
-    tt = rt(canvas)
-    init_turtle(tt, 2, 10)
+def draw_background(tt_screen):
+    tt = rt(tt_screen)
+    init_turtle(tt, 2, 100)
 
     tt.right(45)
     tt.forward(100)
     tt.right(45)
     tt.forward(100)
     tt.left(90)
-    draw_crystal(tt, 100, "red", "red")
 
     tt.back(100)
     tt.right(45)
@@ -111,6 +113,14 @@ def draw_background(canvas):
     tt.forward(300)
     tt.left(90)
     draw_crystal(tt, 300, "#ffc667", "#ffc667")
+
+    tt.right(90)
+    tt.back(300)
+    tt.left(45)
+    tt.back(300)
+    tt.left(45)
+    tt.forward(100)
+    draw_crystal(tt, 175, "red", "red")
 
 """
 Create the buttons for the GUI.
@@ -136,8 +146,8 @@ def main():
 
     root = build_root(width, height)
 
-    canvas = build_canvas(root, width, height)
-    draw_background(canvas)
+    tt_screen = build_canvas(root, width, height, "#444444")
+    draw_background(tt_screen)
 
     button_frame = build_frames(root)
     buttons = place_buttons(button_frame)
