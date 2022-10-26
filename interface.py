@@ -187,6 +187,48 @@ def draw_title(tt, height, length, spacing, text_color):
     tt.forward(long_distance + short_distance)
 
     # Draw t
+    tt.forward(short_distance / 2)
+    tt.begin_fill()
+    tt.down()
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(long_distance)
+    tt.right(45)
+    tt.forward(calculate_hypotenuse(short_distance / 2))
+    tt.left(45)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward((short_distance / 2) * 3)
+    tt.left(90)
+    tt.forward(short_distance / 2)
+    tt.left(45)
+    tt.forward(calculate_hypotenuse(short_distance / 2))
+    tt.right(45)
+    tt.forward(long_distance)
+    tt.up()
+    tt.end_fill()
+    tt.left(90)
+    tt.forward(long_distance)
+
+    #Draw r
+    tt.begin_fill()
+    tt.down()
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(long_distance)
+    tt.right(45)
+    tt.forward(calculate_hypotenuse(short_distance / 2))
+    tt.right(45)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward((short_distance / 2) * 3)
+    tt.left(90)
+    tt.forward(long_distance + short_distance)
+    tt.up()
+    tt.end_fill()
+
 
 """
 Draw the title background on the canvas.
