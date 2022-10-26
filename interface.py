@@ -3,7 +3,7 @@ Title: interface.py
 Developer: Kevin Wu
 Description: GUI for taking user input for the webscraper.
 """
-
+import tabnanny
 import tkinter as tk
 from tkinter import scrolledtext
 import turtle as tt
@@ -106,8 +106,12 @@ def draw_crystal(tt, length, pen_color, fill_color):
 Draw the title of the GUI on the canvas.
 
 @param tt is the Turtle pen
+@param length is the length of the background divided by the spacing
+@param spacing is the distance between each line
+@param text_color is the color of the title
+@param bg_color is the background color of the canvas
 """
-def draw_title(tt, height, length, spacing, text_color):
+def draw_title(tt, length, spacing, text_color, bg_color):
     tt.color(text_color)
     tt.fillcolor(text_color)
 
@@ -228,14 +232,131 @@ def draw_title(tt, height, length, spacing, text_color):
     tt.forward(long_distance + short_distance)
     tt.up()
     tt.end_fill()
+    tt.left(90)
+    tt.forward(long_distance + short_distance / 2)
 
+    # Draw a
+    tt.begin_fill()
+    tt.down()
+    tt.forward(short_distance / 2)
+    tt.left(45)
+    tt.forward(calculate_hypotenuse(short_distance / 2))
+    tt.right(135)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(long_distance + short_distance)
+    tt.left(90)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(short_distance / 2)
+    tt.right(135)
+    tt.forward(calculate_hypotenuse(short_distance / 2))
+    tt.left(45)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(long_distance + short_distance)
+    tt.up()
+    tt.end_fill()
+    tt.left(90)
+
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(short_distance / 2)
+    tt.fillcolor(bg_color)
+    tt.begin_fill()
+    tt.down()
+    tt.forward(long_distance)
+    tt.right(135)
+    tt.forward(calculate_hypotenuse(short_distance / 2))
+    tt.right(45)
+    tt.forward(short_distance)
+    tt.right(45)
+    tt.forward(calculate_hypotenuse(short_distance / 2))
+    tt.up()
+    tt.end_fill()
+    tt.fillcolor(text_color)
+    tt.left(45)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.back(short_distance / 2)
+
+    tt.forward(long_distance + short_distance / 2)
+
+    # Draw c
+    tt.begin_fill()
+    tt.down()
+    tt.forward(short_distance)
+    tt.left(45)
+    tt.forward(calculate_hypotenuse(short_distance / 2))
+    tt.left(45)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(short_distance / 2)
+    tt.right(90)
+    tt.forward(short_distance / 2)
+    tt.right(90)
+    tt.forward(long_distance)
+    tt.right(90)
+    tt.forward(short_distance / 2)
+    tt.right(90)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(short_distance)
+    tt.left(90)
+    tt.forward(short_distance + short_distance / 2)
+    tt.left(90)
+    tt.forward(long_distance + short_distance)
+    tt.up()
+    tt.end_fill()
+    tt.left(90)
+    tt.forward(long_distance + short_distance / 2)
+
+    # Draw t
+    tt.forward(short_distance / 2)
+    tt.begin_fill()
+    tt.down()
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward(long_distance)
+    tt.right(45)
+    tt.forward(calculate_hypotenuse(short_distance / 2))
+    tt.left(45)
+    tt.forward(short_distance / 2)
+    tt.left(90)
+    tt.forward((short_distance / 2) * 3)
+    tt.left(90)
+    tt.forward(short_distance / 2)
+    tt.left(45)
+    tt.forward(calculate_hypotenuse(short_distance / 2))
+    tt.right(45)
+    tt.forward(long_distance)
+    tt.up()
+    tt.end_fill()
+    tt.left(90)
+    tt.forward(long_distance)
+
+    # Move Turtle pen out of frame
+    tt.forward(1000)
 
 """
 Draw the title background on the canvas.
 
 @param tt is the Turtle pen
+@param height is the height of the background divided by the spacing
+@param length is the length of the background divided by the spacing
+@param spacing is the distance between each line
+@param pen_color is the color of the pen
+@param text_color is the color of the title
+@param draw_speed is the drawing_speed of the Turtle pen
+@param bg_color is the background color of the canvas
 """
-def draw_title_background(tt, height, length, spacing, pen_color, text_color, draw_speed):
+def draw_title_background(tt, height, length, spacing, pen_color, text_color, draw_speed, bg_color):
     tt.color(pen_color)
     tt.speed(0)
     for x in range(length):
@@ -273,7 +394,7 @@ def draw_title_background(tt, height, length, spacing, pen_color, text_color, dr
         tt.forward((height / 2) * spacing)
         tt.left(90)
         tt.back((length / 3) * spacing)
-    draw_title(tt, height, length, spacing, text_color)
+    draw_title(tt, length, spacing, text_color, bg_color)
     tt.speed(draw_speed)
 
 """
@@ -281,7 +402,7 @@ Draw the background for the GUI.
 
 @param canvas is the canvas to draw the background on
 """
-def draw_background(tt_screen, pen_size, draw_speed):
+def draw_background(tt_screen, pen_size, draw_speed, bg_color):
     tt = rt(tt_screen)
     init_turtle(tt, pen_size, draw_speed)
 
@@ -314,7 +435,7 @@ def draw_background(tt_screen, pen_size, draw_speed):
     tt.left(90)
     tt.forward(100)
     tt.right(180)
-    draw_title_background(tt, 10, 25, 10, "white", "#ffc667", draw_speed)
+    draw_title_background(tt, 10, 25, 10, "white", "#ffc667", draw_speed, bg_color)
 
 """
 Create the buttons for the GUI.
@@ -344,7 +465,7 @@ def main():
     root = build_root(width, height)
 
     tt_screen = build_canvas(root, width, height, "#444444")
-    draw_background(tt_screen, pen_size, draw_speed)
+    draw_background(tt_screen, pen_size, draw_speed, "#444444")
 
     button_frame = build_frames(root)
     buttons = place_buttons(button_frame)
