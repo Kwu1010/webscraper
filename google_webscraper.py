@@ -72,12 +72,25 @@ def specify_search_parameters():
     return search_terms, website, parse_search
 
 """
+Save search output to temp_log.txt file.
+
+@param output is the output text
+"""
+def save_to_file(output):
+    file = open("temp_log.txt", "w+", encoding="utf-8")
+    for sentence in output:
+        file.write(sentence + "\n")
+    file.close()
+
+"""
 Filter the search to sentences which contain the search terms and print them out.
 
 @param search_terms are the terms to search for
 @param website_elements is the website data
+@return the text output of the page
 """
 def filter_search(parse_search, website_elements):
+    text_output = []
     term_list = parse_search.split(' ')
     for data in website_elements.find_all("p"):
         contains_term = False
@@ -88,7 +101,10 @@ def filter_search(parse_search, website_elements):
                 contains_term = True
                 break
         if contains_term:
-            print(data.get_text())
+            text = data.get_text()
+            print(text)
+            text_output.append(text)
+    return text_output
 
 """
 Examine if URL is a tweet.
@@ -107,19 +123,29 @@ Search google for the top 10 results of the search terms and print them out.
 @param parse_search is whether to filter the search 
 """
 def search_google(search_terms, parse_search):
+    output = []
     for url in search(search_terms, tld="co.in", num=10, stop=10, pause=2):
         print(url)
+        output.append(url)
         tweet_id = is_tweet(url)
         if tweet_id == -1:
             html = requests.get(url)
             website_elements = BeautifulSoup(html.content, 'html.parser')
             if parse_search.isspace():
                 for data in website_elements.find_all("p"):
-                    print(data.get_text())
+                    text = data.get_text()
+                    print(text)
+                    output.append(text)
             else:
-                filter_search(parse_search, website_elements)
+                text_output = filter_search(parse_search, website_elements)
+                for sentence in text_output:
+                    output.append(sentence)
         else:
-            print(twitter_api_module.return_text(url))
+            text = twitter_api_module.return_text(url)
+            print(text)
+            output.append(text)
+        output.append("\n")
+    save_to_file(output)
 
 """
 Search the wiki for the search term.
@@ -128,14 +154,20 @@ Search the wiki for the search term.
 @param parse_search is whether to filter the search
 """
 def search_wiki(search_terms, parse_search):
+    output = []
     url = "https://en.wikipedia.org/wiki/" + search_terms
     html = requests.get(url)
     website_elements = BeautifulSoup(html.content, 'html.parser')
     if parse_search.isspace():
         for data in website_elements.find_all("p"):
-            print(data.get_text())
+            text = data.get_text
+            print(text)
+            output.append(text)
     else:
-        filter_search(search_terms, website_elements)
+        text_output = filter_search(parse_search, website_elements)
+        for sentence in text_output:
+            output.append(sentence)
+    save_to_file(output)
 
 """
 Main function.
