@@ -443,7 +443,15 @@ Run the webscraper with the search from the input_field.
 """
 def search():
     text = input_field.get()
-    scrape.search_google(text, text)
+    if(text[0] == '%'):
+        website = text.split(' ')[0]
+        terms = text[len(website) + 1:]
+        if(website[1:] in scrape.wiki):
+            scrape.search_wiki(terms, terms)
+        else:
+            scrape.search_google(terms, terms)
+    else:
+        scrape.search_google(text, text)
 
 """
 Create the buttons for the GUI.
