@@ -3,12 +3,14 @@ Title: interface.py
 Developer: Kevin Wu
 Description: GUI for taking user input for the webscraper.
 """
-import tabnanny
+
 import tkinter as tk
-from tkinter import scrolledtext
 import turtle as tt
 from turtle import RawTurtle as rt
 import math
+
+""" Global variable input_field """
+input_field = tk.Entry
 
 """
 Build the root window for the GUI.
@@ -434,19 +436,26 @@ def draw_background(tt_screen, pen_size, draw_speed, bg_color):
     draw_title_background(tt, 10, 25, 10, "white", "#ffc667", draw_speed, bg_color)
 
 """
+Run the webscraper with the search from the input_field.
+
+@param input_field is the search bar
+"""
+def search():
+    print(input_field.get())
+
+"""
 Create the buttons for the GUI.
 
 @param button_frame is the frame housing the buttons
-@return a list with all the buttons
 """
 def place_buttons(button_frame):
-    buttons = []
+    global input_field
 
-    input_field = tk.Entry(button_frame, width=100, text="Search")
-    input_field.pack()
+    input_field = tk.Entry(button_frame, width=90)
+    input_field.grid(row=0, column=0)
 
-    buttons.append(input_field)
-    return buttons
+    search_button = tk.Button(button_frame, text="Search", command=search)
+    search_button.grid(row=0, column=1)
 
 """
 Main function calling functions to make the GUI.
@@ -464,7 +473,7 @@ def main():
     draw_background(tt_screen, pen_size, draw_speed, "#444444")
 
     button_frame = build_frames(root)
-    buttons = place_buttons(button_frame)
+    place_buttons(button_frame)
 
     root.mainloop()
 
