@@ -8,6 +8,7 @@ import tkinter as tk
 import turtle as tt
 from turtle import RawTurtle as rt
 import math
+import google_webscraper as scrape
 
 """ Global variable input_field """
 input_field = tk.Entry
@@ -441,7 +442,8 @@ Run the webscraper with the search from the input_field.
 @param input_field is the search bar
 """
 def search():
-    print(input_field.get())
+    text = input_field.get()
+    scrape.search_google(text, text)
 
 """
 Create the buttons for the GUI.
