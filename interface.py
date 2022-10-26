@@ -340,9 +340,6 @@ def draw_title(tt, length, spacing, text_color, bg_color):
     tt.left(90)
     tt.forward(long_distance)
 
-    # Move Turtle pen out of frame
-    tt.forward(1000)
-
 """
 Draw the title background on the canvas.
 
@@ -350,12 +347,13 @@ Draw the title background on the canvas.
 @param height is the height of the background divided by the spacing
 @param length is the length of the background divided by the spacing
 @param spacing is the distance between each line
-@param pen_color is the color of the pen
-@param text_color is the color of the title
+@param text_size is the size of the title characters
+@param pen_color is the color of title background
+@param text_color is the color of the title characters
 @param draw_speed is the drawing_speed of the Turtle pen
 @param bg_color is the background color of the canvas
 """
-def draw_title_background(tt, height, length, spacing, pen_color, text_color, draw_speed, bg_color):
+def draw_title_background(tt, height, length, spacing, text_size, pen_color, text_color, draw_speed, bg_color):
     tt.color(pen_color)
     tt.speed(0)
     for x in range(length):
@@ -383,17 +381,17 @@ def draw_title_background(tt, height, length, spacing, pen_color, text_color, dr
             tt.forward(hypotenuse)
             tt.left(45)
             tt.up()
-    if(length % 2 == 0):
+    if(length % 2 == 0):                        # If length is even
         tt.left(90)
         tt.forward((height / 2) * spacing)
         tt.right(90)
-        tt.back((length / 2) * spacing)
-    else:
+        tt.back(((length / 5) * 4) * spacing)
+    else:                                       # If length is odd
         tt.right(90)
         tt.forward((height / 2) * spacing)
         tt.left(90)
-        tt.back((length / 3) * spacing)
-    draw_title(tt, length, spacing, text_color, bg_color)
+        tt.back(((length / 5) * 2) * spacing)
+    draw_title(tt, text_size, spacing, text_color, bg_color)
     tt.speed(draw_speed)
 
 """
@@ -401,8 +399,12 @@ Draw the background for the GUI.
 
 @param canvas is the canvas to draw the background on
 """
-def draw_background(tt_screen, pen_size, draw_speed, bg_color):
+def draw_background(tt_screen, bg_color):
     tt = rt(tt_screen)
+
+    pen_size = 2
+    draw_speed = 0
+
     init_turtle(tt, pen_size, draw_speed)
 
     tt.right(45)
@@ -429,12 +431,18 @@ def draw_background(tt_screen, pen_size, draw_speed, bg_color):
     tt.forward(100)
     draw_crystal(tt, 175, "red", "red")
 
+    # Draw Title & Background
+    # draw_title_background calls draw_title
+    # draw_title_background value parameters: bg height, bg length, bg spacing, text size, bg color, text color
     tt.left(90)
     tt.forward(200)
     tt.left(90)
     tt.forward(100)
     tt.right(180)
-    draw_title_background(tt, 10, 25, 10, "white", "#ffc667", draw_speed, bg_color)
+    draw_title_background(tt, 10, 30, 10, 25, "white", "#ffc667", draw_speed, bg_color)
+
+    # Move Turtle pen out of frame
+    tt.forward(1000)
 
 """
 Run the webscraper with the search from the input_field.
@@ -474,13 +482,10 @@ def main():
     width = 1200
     height = 600
 
-    pen_size = 2
-    draw_speed = 0
-
     root = build_root(width, height)
 
     tt_screen = build_canvas(root, width, height, "#444444")
-    draw_background(tt_screen, pen_size, draw_speed, "#444444")
+    draw_background(tt_screen, "#444444")
 
     button_frame = build_frames(root)
     place_buttons(button_frame)
