@@ -92,12 +92,14 @@ Filter the search to sentences which contain the search terms and print them out
 def filter_search(parse_search, website_elements):
     text_output = []
     term_list = parse_search.split(' ')
+    for i in range(len(term_list)):
+        term_list[i] = term_list[i].lower()
     for data in website_elements.find_all("p"):
         contains_term = False
         text = data.get_text()
         text = text.split(' ')
         for word in text:
-            if word in term_list:
+            if word.lower() in term_list:
                 contains_term = True
                 break
         if contains_term:
